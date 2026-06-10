@@ -1,8 +1,8 @@
-# 👋 Hi, I'm Harsh kumar
+# 👋 Hi, I'm Harsh Kumar
 
-## 🚀 Python,Web development Freelancer
+## 🚀 Python, Web Development Freelancer
 
-I help businesses with Python automation, data cleaning, and web scraping.
+I help businesses with Python automation, data cleaning, web scraping, and frontend web development.
 
 ## 🛠️ Services I Offer
 
@@ -24,10 +24,11 @@ I help businesses with Python automation, data cleaning, and web scraping.
 - Reminder bots
 - Group management bots
 
-### 🌐 Frontend Websites
+### 🌐 Frontend Websites (Web Development)
 - Responsive HTML/CSS/JS
 - Portfolio websites
 - Landing pages
+- Business websites
 
 ## 📁 My Projects
 
@@ -36,6 +37,7 @@ I help businesses with Python automation, data cleaning, and web scraping.
 | Data Cleaner | Clean messy CSV files | Python, CSV module |
 | Amazon Scraper | Extract product prices | Python, BeautifulSoup |
 | Weather Bot | Telegram bot for weather | Python, python-telegram-bot |
+| Portfolio Site | Personal web development project | HTML, CSS, JavaScript |
 
 ## 📫 Find Me On Freelance Platforms
 
@@ -44,8 +46,9 @@ I help businesses with Python automation, data cleaning, and web scraping.
 | **Fiverr** | [Link daalenge baad mein] | Coming Soon |
 | **Freelancer.com** | [Link daalenge baad mein] | Coming Soon |
 | **GitHub** | [github.com/Python-freelancer](https://github.com/Python-freelancer) | ✅ Active |
-Email => hk6090138@gmail.com
-Mobile number => 9718879035
+
+**Email:** hk6090138@gmail.com  
+**Mobile:** 9718879035
 
 ## ⏰ Delivery Time
 
@@ -57,4 +60,4 @@ Mobile number => 9718879035
 
 *💡 Quality work • Fast delivery • Client satisfaction guaranteed*
 
-*Available on Fiverr & Freelancer.com — Contact me for any Python,Web development -related work.*
+*Available on Fiverr & Freelancer.com — Contact me for any Python or web development related work.*
