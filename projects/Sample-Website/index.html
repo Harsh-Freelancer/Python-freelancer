@@ -1,41 +1,458 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FreshMart – Online Grocery & More</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>NexusPortfolio | Dynamic Category Showcase</title>
+  <!-- Google Fonts + Font Awesome 6 -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(145deg, #f8fafc 0%, #eef2f7 100%);
+      color: #0a0c10;
+      line-height: 1.5;
+      scroll-behavior: smooth;
+    }
+
+    /* custom accent color variable (dynamic via JS) */
+    :root {
+      --primary-color: #3b82f6;
+      --primary-soft: rgba(59, 130, 246, 0.12);
+      --card-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.1), 0 4px 12px -6px rgba(0, 0, 0, 0.02);
+      --transition-smooth: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 2rem 1.8rem 3rem;
+    }
+
+    /* header area */
+    .brand {
+      text-align: center;
+      margin-bottom: 2.2rem;
+    }
+    .brand h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #1e293b, #2d3a4f);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.02em;
+    }
+    .brand .tagline {
+      color: #4b5563;
+      font-weight: 500;
+      font-size: 1.1rem;
+      margin-top: 0.4rem;
+      border-bottom: 2px solid var(--primary-color);
+      display: inline-block;
+      padding-bottom: 0.25rem;
+      transition: border-color 0.3s ease;
+    }
+
+    /* category filter row */
+    .categories-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin: 2.5rem 0 2rem;
+    }
+    .cat-btn {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      padding: 0.7rem 1.6rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      color: #1f2937;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+    }
+    .cat-btn i {
+      font-size: 1.2rem;
+      transition: transform 0.2s;
+    }
+    .cat-btn:hover {
+      transform: translateY(-3px);
+      background: white;
+      border-color: var(--primary-color);
+      box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.15);
+    }
+    .cat-btn.active {
+      background: var(--primary-color);
+      border-color: var(--primary-color);
+      color: white;
+      box-shadow: 0 10px 20px -8px var(--primary-color);
+    }
+    .cat-btn.active i {
+      color: white;
+    }
+
+    /* main showcase card */
+    .showcase-card {
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(2px);
+      border-radius: 2.5rem;
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+      transition: var(--transition-smooth);
+      margin: 1rem 0 2rem;
+      border: 1px solid rgba(255,255,255,0.6);
+    }
+    .card-inner {
+      padding: 2.5rem 2.2rem;
+    }
+    .category-icon {
+      font-size: 4rem;
+      color: var(--primary-color);
+      background: var(--primary-soft);
+      width: 85px;
+      height: 85px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 30px;
+      margin-bottom: 1.5rem;
+      transition: all 0.3s;
+    }
+    .category-title {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.75rem;
+      color: #0f172a;
+    }
+    .category-desc {
+      font-size: 1.1rem;
+      color: #334155;
+      max-width: 85%;
+      margin-bottom: 2rem;
+      line-height: 1.5;
+    }
+    .features-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin: 1.5rem 0 2rem;
+    }
+    .feature-badge {
+      background: #f1f5f9;
+      padding: 0.6rem 1.2rem;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #1e293b;
+      transition: 0.2s;
+      border-left: 3px solid var(--primary-color);
+    }
+    .feature-badge i {
+      color: var(--primary-color);
+      font-size: 0.85rem;
+    }
+    .action-btn {
+      background: transparent;
+      border: 1.5px solid var(--primary-color);
+      padding: 0.8rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      color: var(--primary-color);
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: 0.25s;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.6);
+    }
+    .action-btn:hover {
+      background: var(--primary-color);
+      color: white;
+      transform: scale(0.97);
+      box-shadow: 0 10px 18px -10px var(--primary-color);
+    }
+    /* decorative line */
+    .footer-note {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(0,0,0,0.05);
+      font-size: 0.85rem;
+      color: #5b6e8c;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .footer-note span i {
+      margin-right: 6px;
+      color: var(--primary-color);
+    }
+
+    /* fade animation on content change */
+    @keyframes fadeSlideUp {
+      0% { opacity: 0; transform: translateY(12px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .fade-transition {
+      animation: fadeSlideUp 0.4s ease forwards;
+    }
+
+    /* responsive */
+    @media (max-width: 780px) {
+      .container { padding: 1.5rem; }
+      .brand h1 { font-size: 2rem; }
+      .card-inner { padding: 1.8rem; }
+      .category-title { font-size: 1.6rem; }
+      .category-desc { max-width: 100%; }
+      .cat-btn { padding: 0.5rem 1.2rem; font-size: 0.85rem; }
+      .features-grid { gap: 0.7rem; }
+    }
+    @media (max-width: 550px) {
+      .categories-wrapper { gap: 0.7rem; }
+      .cat-btn { padding: 0.5rem 1rem; font-size: 0.8rem; }
+    }
+  </style>
 </head>
 <body>
+<div class="container">
+  <div class="brand">
+    <h1><i class="fas fa-cube" style="margin-right: 10px; background: none; -webkit-background-clip: unset; color: #3b82f6;"></i> visionNest</h1>
+    <div class="tagline">✨ dynamic showcase — choose your creative lens</div>
+  </div>
 
-<header>
-    <div class="logo">
-        <i class="fas fa-store"></i> FreshMart
-    </div>
-    <div class="search-bar">
-        <input type="text" placeholder="Search products...">
-        <button><i class="fas fa-search"></i></button>
-    </div>
-    <div class="cart-icon">
-        <i class="fas fa-shopping-cart"></i>
-        <span id="cart-count">0</span>
-    </div>
-</header>
+  <!-- categories will be injected dynamically by JS -->
+  <div class="categories-wrapper" id="categoriesContainer"></div>
 
-<div class="hero">
-    <h1>Everyday Essentials</h1>
-    <p>Soap • Chips • Coldrinks & more — delivered fast</p>
+  <!-- dynamic content card -->
+  <div class="showcase-card" id="showcaseCard">
+    <div class="card-inner" id="dynamicContent">
+      <!-- JS populates -->
+      <div class="category-icon"><i class="fas fa-brain"></i></div>
+      <h2 class="category-title">AI & Emerging Tech</h2>
+      <p class="category-desc">Harness the power of machine learning, computer vision, and intelligent automation.</p>
+      <div class="features-grid" id="featuresList"></div>
+      <button class="action-btn" id="exploreBtn"><i class="fas fa-arrow-right"></i> Discover universe</button>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    <span><i class="fas fa-magic"></i> 5 premium categories</span>
+    <span><i class="fas fa-code-branch"></i> fully responsive</span>
+    <span><i class="fas fa-palette"></i> live accent color</span>
+  </div>
 </div>
 
-<div class="products-container" id="products-container">
-    <!-- products will be injected via JS -->
-</div>
+<script>
+  // ------------------------------
+  // CATEGORIES DATA (choose your topic)
+  // each category includes: name, icon class, title, description, features array, accentColor
+  // ------------------------------
+  const categoriesData = [
+    {
+      id: "ai-tech",
+      name: "AI & Tech",
+      iconClass: "fas fa-microchip",
+      title: "AI & Emerging Tech",
+      desc: "Harness the power of machine learning, computer vision, and intelligent automation. From GPT models to edge AI, redefine what's possible.",
+      features: ["Generative AI Solutions", "Predictive Analytics", "Smart Assistants", "Edge Computing", "Computer Vision APIs"],
+      accentColor: "#3b82f6",
+      ctaMessage: "Explore AI frontier"
+    },
+    {
+      id: "nature-travel",
+      name: "Nature & Travel",
+      iconClass: "fas fa-mountain-sun",
+      title: "Nature & Travel Escapes",
+      desc: "Discover breathtaking destinations, eco-friendly adventures, and immersive travel stories. Wanderlust meets sustainable exploration.",
+      features: ["Curated Itineraries", "Eco-Tourism Guides", "Photography Tips", "Local Culture", "Offbeat Trails"],
+      accentColor: "#10b981",
+      ctaMessage: "Start journey"
+    },
+    {
+      id: "food-cuisine",
+      name: "Food & Cuisine",
+      iconClass: "fas fa-utensils",
+      title: "Gourmet & Culinary Art",
+      desc: "Savor the finest flavors, from authentic street food to Michelin-star creations. Recipes, techniques, and global food stories.",
+      features: ["Global Recipes", "Cooking Masterclasses", "Wine & Pairings", "Chef Interviews", "Seasonal Menus"],
+      accentColor: "#f59e0b",
+      ctaMessage: "Taste inspiration"
+    },
+    {
+      id: "fitness-wellness",
+      name: "Fitness & Wellness",
+      iconClass: "fas fa-heart-pulse",
+      title: "Fitness & Holistic Wellness",
+      desc: "Achieve your best self with science-backed fitness, mental resilience, and nutrition plans. Transform body & mind.",
+      features: ["Workout Plans", "Meditation Guides", "Nutrition Tracking", "Community Challenges", "Recovery Protocols"],
+      accentColor: "#ef4444",
+      ctaMessage: "Elevate health"
+    },
+    {
+      id: "art-design",
+      name: "Art & Design",
+      iconClass: "fas fa-paintbrush-fine",
+      title: "Art & Design Vision",
+      desc: "Unleash creativity with stunning visuals, UI/UX innovation, and digital art direction. Where aesthetics meet function.",
+      features: ["Digital Illustration", "UI/UX Trends", "Artist Spotlights", "Creative Tools", "Brand Identity"],
+      accentColor: "#8b5cf6",
+      ctaMessage: "Inspire creation"
+    }
+  ];
 
-<footer>
-    <p>&copy; 2026 FreshMart | Designed by Harsh Kumar</p>
-</footer>
+  // DOM elements
+  const categoriesContainer = document.getElementById("categoriesContainer");
+  const dynamicContentDiv = document.getElementById("dynamicContent");
+  let currentActiveId = "ai-tech";
 
-<script src="script.js"></script>
+  // Helper: render category buttons dynamically
+  function renderCategoryButtons() {
+    categoriesContainer.innerHTML = "";
+    categoriesData.forEach(cat => {
+      const btn = document.createElement("button");
+      btn.className = `cat-btn ${currentActiveId === cat.id ? "active" : ""}`;
+      btn.setAttribute("data-id", cat.id);
+      // icon and name
+      btn.innerHTML = `<i class="${cat.iconClass}"></i> ${cat.name}`;
+      btn.addEventListener("click", () => {
+        if (currentActiveId === cat.id) return;
+        // update active ID
+        currentActiveId = cat.id;
+        // update active class on all buttons
+        document.querySelectorAll(".cat-btn").forEach(btnEl => {
+          if (btnEl.getAttribute("data-id") === currentActiveId) {
+            btnEl.classList.add("active");
+          } else {
+            btnEl.classList.remove("active");
+          }
+        });
+        // render the selected category content with fade effect
+        renderCategoryContent(cat.id);
+        // change global accent color variable with smooth transition
+        const selectedCat = categoriesData.find(c => c.id === cat.id);
+        if (selectedCat) {
+          document.documentElement.style.setProperty("--primary-color", selectedCat.accentColor);
+          document.documentElement.style.setProperty("--primary-soft", `${selectedCat.accentColor}1a`);
+          // also update the tagline border dynamic
+          const taglineSpan = document.querySelector(".brand .tagline");
+          if (taglineSpan) taglineSpan.style.borderBottomColor = selectedCat.accentColor;
+        }
+      });
+      categoriesContainer.appendChild(btn);
+    });
+  }
+
+  // render main content based on category id with smooth transition
+  function renderCategoryContent(categoryId) {
+    const category = categoriesData.find(c => c.id === categoryId);
+    if (!category) return;
+
+    // apply fade-out + fade-in using class removal and re-add
+    const cardInner = dynamicContentDiv;
+    cardInner.style.opacity = "0.6";
+    cardInner.style.transform = "translateY(6px)";
+    cardInner.style.transition = "opacity 0.2s ease, transform 0.25s ease";
+
+    setTimeout(() => {
+      // rebuild HTML structure
+      const iconHtml = `<div class="category-icon"><i class="${category.iconClass}"></i></div>`;
+      const titleHtml = `<h2 class="category-title">${category.title}</h2>`;
+      const descHtml = `<p class="category-desc">${category.desc}</p>`;
+      
+      // generate features list as badges
+      let featuresHtml = `<div class="features-grid" id="featuresList">`;
+      category.features.forEach(feature => {
+        featuresHtml += `<div class="feature-badge"><i class="fas fa-check-circle"></i> ${feature}</div>`;
+      });
+      featuresHtml += `</div>`;
+      
+      // button with dynamic CTA message
+      const buttonHtml = `<button class="action-btn" id="exploreBtn"><i class="fas fa-arrow-right"></i> ${category.ctaMessage || "Explore"}</button>`;
+      
+      // combine everything
+      const fullContent = iconHtml + titleHtml + descHtml + featuresHtml + buttonHtml;
+      cardInner.innerHTML = fullContent;
+      
+      // reattach event to the newly created explore button
+      const newExploreBtn = document.getElementById("exploreBtn");
+      if (newExploreBtn) {
+        newExploreBtn.addEventListener("click", () => {
+          alert(`✨ Welcome to the ${category.title} world!\n\n📌 Selected category: ${category.name}\n💡 Features: ${category.features.slice(0,3).join(", ")} ...\n🚀 More exciting content coming soon.`);
+        });
+      }
+      
+      // add mini interaction for feature badges
+      const badges = document.querySelectorAll(".feature-badge");
+      badges.forEach(badge => {
+        badge.addEventListener("mouseenter", (e) => {
+          badge.style.transform = "translateX(5px)";
+          badge.style.transition = "0.2s";
+        });
+        badge.addEventListener("mouseleave", () => {
+          badge.style.transform = "translateX(0)";
+        });
+      });
+      
+      // restore opacity and transform after update
+      cardInner.style.opacity = "1";
+      cardInner.style.transform = "translateY(0)";
+      
+      // manually force fadeSlideUp effect on updated content
+      const elementsToAnimate = cardInner.querySelectorAll(".category-icon, .category-title, .category-desc, .features-grid, .action-btn");
+      elementsToAnimate.forEach(el => {
+        el.style.animation = "none";
+        el.offsetHeight; // reflow
+        el.style.animation = "fadeSlideUp 0.45s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards";
+      });
+    }, 120);
+  }
+
+  // initial load: set everything with first category (ai-tech)
+  function initPage() {
+    renderCategoryButtons();
+    // initial accent color based on first category
+    const firstCat = categoriesData.find(c => c.id === "ai-tech");
+    if (firstCat) {
+      document.documentElement.style.setProperty("--primary-color", firstCat.accentColor);
+      document.documentElement.style.setProperty("--primary-soft", `${firstCat.accentColor}1a`);
+      const taglineSpan = document.querySelector(".brand .tagline");
+      if (taglineSpan) taglineSpan.style.borderBottomColor = firstCat.accentColor;
+    }
+    renderCategoryContent("ai-tech");
+    
+    // additional floating micro interaction on container
+    const showcase = document.querySelector(".showcase-card");
+    showcase.addEventListener("mouseenter", () => {
+      showcase.style.transform = "scale(1.01)";
+      showcase.style.transition = "transform 0.3s ease";
+    });
+    showcase.addEventListener("mouseleave", () => {
+      showcase.style.transform = "scale(1)";
+    });
+  }
+  
+  // run after DOM ready
+  document.addEventListener("DOMContentLoaded", initPage);
+</script>
 </body>
 </html>
